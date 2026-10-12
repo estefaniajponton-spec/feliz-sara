@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Para Marce, en sus 20</title>
+<meta name="description" content="Una carta de cumpleaños para Marce.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎂</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night: #1b2447;
+    --night-deep: #131a36;
+    --lemon: #f7d84a;
+    --rose: #f4a3b9;
+    --paper: #fbf9ff;
+    --ink: #232a4d;
+    --muted: #5d6490;
+    --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+    --body: "Literata", Georgia, "Times New Roman", serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(1200px 700px at 50% -10%, #2a3770 0%, var(--night) 45%, var(--night-deep) 100%);
+    color: var(--paper);
+    font-family: var(--body);
+    -webkit-font-smoothing: antialiased;
+  }
+  main { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; padding: 56px 20px 80px; }
+
+  /* Portada */
+  .cover { text-align: center; }
+  .cover h1 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(5.5rem, 28vw, 11rem);
+    line-height: .85;
+    margin: 0;
+    letter-spacing: -0.04em;
+    color: var(--lemon);
+  }
+  .cover p.sub {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(1.15rem, 4.5vw, 1.5rem);
+    margin: 14px 0 44px;
+    color: var(--rose);
+  }
+
+  /* Sobre */
+  .envelope {
+    position: relative;
+    width: min(100%, 360px);
+    aspect-ratio: 3 / 2;
+    margin: 0 auto;
+    perspective: 900px;
+    cursor: pointer;
+    background: none;
+    border: 0;
+    padding: 0;
+    display: block;
+    color: inherit;
+    font: inherit;
+  }
+  .envelope:focus-visible { outline: 3px solid var(--lemon); outline-offset: 8px; border-radius: 10px; }
+  .env-back, .env-front, .env-flap { position: absolute; inset: 0; border-radius: 10px; }
+  .env-back { background: #e58aa3; }
+  .env-front {
+    background:
+      linear-gradient(to bottom right, transparent 49.6%, rgba(0,0,0,.12) 50%, transparent 50.6%) 0 0 / 50% 100% no-repeat,
+      linear-gradient(to bottom left,  transparent 49.6%, rgba(0,0,0,.12) 50%, transparent 50.6%) 100% 0 / 50% 100% no-repeat,
+      var(--rose);
+    clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%);
+    z-index: 3;
+  }
+  .env-flap {
+    background: #f08fab;
+    clip-path: polygon(0 0, 100% 0, 50% 58%);
+    transform-origin: top center;
+    transition: transform .7s cubic-bezier(.3,.7,.2,1), z-index 0s .35s;
+    z-index: 4;
+  }
+  .env-card {
+    position: absolute;
+    left: 7%; right: 7%; top: 10%; bottom: 8%;
+    background: var(--paper);
+    border-radius: 6px;
+    z-index: 2;
+    transition: transform .8s .25s cubic-bezier(.3,.7,.2,1);
+  }
+  .env-label {
+    position: absolute;
+    left: 0; right: 0; bottom: 16%;
+    text-align: center;
+    z-index: 5;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: var(--night);
+    transition: opacity .3s;
+  }
+  .env-seal {
+    position: absolute;
+    left: 50%; top: 46%;
+    width: 46px; height: 46px;
+    margin: -23px 0 0 -23px;
+    border-radius: 50%;
+    background: var(--lemon);
+    z-index: 6;
+    display: grid; place-items: center;
+    font-size: 22px;
+    box-shadow: 0 3px 8px rgba(0,0,0,.25);
+    transition: opacity .3s;
+  }
+  .opened .env-flap { transform: rotateX(180deg); z-index: 1; }
+  .opened .env-card { transform: translateY(-34%); }
+  .opened .env-label, .opened .env-seal { opacity: 0; }
+  .hint { margin-top: 26px; color: #b9bfe0; font-size: .95rem; transition: opacity .3s; }
+  .opened + .hint { opacity: 0; }
+
+  /* Carta */
+  .letter-wrap { display: none; margin-top: 56px; }
+  .letter-wrap.show { display: block; animation: rise .9s ease both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+
+  .letter {
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 14px;
+    padding: clamp(28px, 7vw, 56px);
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,.5);
+    border-top: 10px solid var(--lemon);
+  }
+  .letter h2 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(1.8rem, 6vw, 2.4rem);
+    margin: 0 0 24px;
+    line-height: 1.1;
+  }
+  .letter p {
+    font-size: clamp(1.02rem, 3.6vw, 1.15rem);
+    line-height: 1.75;
+    margin: 0 0 1.2em;
+    max-width: 62ch;
+  }
+  .letter .aside { color: var(--muted); font-style: italic; }
+  .letter .sign { margin-top: 2em; margin-bottom: 0; }
+  .letter .sign strong {
+    display: block;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1.9rem;
+    color: #d6416f;
+    margin-top: 4px;
+  }
+
+  .again {
+    display: block;
+    margin: 28px auto 0;
+    background: transparent;
+    color: var(--lemon);
+    border: 2px solid var(--lemon);
+    border-radius: 999px;
+    padding: 10px 22px;
+    font: 500 1rem var(--display);
+    cursor: pointer;
+  }
+  .again:hover { background: var(--lemon); color: var(--night); }
+  .again:focus-visible { outline: 3px solid var(--rose); outline-offset: 4px; }
+
+  .music-btn {
+    position: fixed;
+    top: 14px; right: 14px;
+    z-index: 60;
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    border: 2px solid var(--lemon);
+    background: rgba(19, 26, 54, .8);
+    color: var(--lemon);
+    font-size: 20px;
+    cursor: pointer;
+    display: none;
+    place-items: center;
+  }
+  .music-btn.visible { display: grid; }
+  .music-btn:hover { background: var(--lemon); color: var(--night); }
+  .music-btn:focus-visible { outline: 3px solid var(--rose); outline-offset: 3px; }
+
+  /* Nubes y corazones de fondo */
+  .sky, .hearts { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+  .cloud {
+    position: absolute;
+    left: -200px;
+    width: 130px; height: 40px;
+    background: rgba(255,255,255,.13);
+    border-radius: 40px;
+    animation: drift linear infinite;
+  }
+  .cloud::before, .cloud::after { content: ""; position: absolute; background: inherit; border-radius: 50%; }
+  .cloud::before { width: 56px; height: 56px; left: 18px; top: -26px; }
+  .cloud::after  { width: 70px; height: 70px; left: 56px; top: -38px; }
+  .cloud.c1 { top: 12%; animation-duration: 90s; }
+  .cloud.c2 { top: 38%; transform: scale(1.5); animation-duration: 130s; animation-delay: -50s; opacity: .8; }
+  .cloud.c3 { top: 68%; transform: scale(.8); animation-duration: 100s; animation-delay: -20s; }
+  @keyframes drift { from { left: -220px; } to { left: 110%; } }
+
+  .heart {
+    position: absolute;
+    bottom: -50px;
+    opacity: 0;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(0) translateX(0) rotate(-8deg); opacity: 0; }
+    10%  { opacity: .75; }
+    50%  { transform: translateY(-55vh) translateX(18px) rotate(8deg); }
+    100% { transform: translateY(-115vh) translateX(-12px) rotate(-6deg); opacity: 0; }
+  }
+
+  /* Imagen opcional de la mascota (cinnamoroll.png, la pone la persona) */
+  .mascot {
+    display: block;
+    width: clamp(150px, 42vw, 220px);
+    height: auto;
+    margin: 0 auto 8px;
+    animation: bob 3.2s ease-in-out infinite;
+  }
+  .mascot-sm { display: block; width: 130px; height: auto; margin: 18px 0 0 auto; animation: bob 3.2s ease-in-out infinite; }
+  @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+  canvas#confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cloud, .mascot, .mascot-sm { animation: none; }
+    .hearts { display: none; }
+    .env-flap, .env-card, .env-label, .env-seal { transition: none; }
+    .letter-wrap.show { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+<canvas id="confetti" aria-hidden="true"></canvas>
+<div class="sky" aria-hidden="true"><i class="cloud c1"></i><i class="cloud c2"></i><i class="cloud c3"></i></div>
+<div class="hearts" id="hearts" aria-hidden="true"></div>
+<button class="music-btn" id="music" type="button" aria-label="Silenciar música" aria-pressed="false">🔊</button>
+
+<main>
+  <section class="cover">
+    <img class="mascot" src="cinnamoroll.png" alt="" onerror="this.remove()">
+    <h1>20</h1>
+    <p class="sub">Feliz cumpleaños, Marce</p>
+
+    <button class="envelope" id="envelope" aria-expanded="false" aria-controls="letter">
+      <span class="env-back"></span>
+      <span class="env-card"></span>
+      <span class="env-front"></span>
+      <span class="env-flap"></span>
+      <span class="env-seal" aria-hidden="true">💌</span>
+      <span class="env-label">Para Marce</span>
+    </button>
+    <p class="hint">Toca el sobre para abrir tu carta</p>
+  </section>
+
+  <section class="letter-wrap" id="letter" aria-live="polite">
+    <article class="letter">
+      <h2>Holii Marce 💗</h2>
+
+      <p>Gracias por siempre estar para mí, gracias por cada risa, llanto y todas las veces que me has escuchado. Gracias por aguantar a esta personita empalagosa, intensa y llorona. Eres alguien increíble y tienes una personalidad súper chévere.</p>
+
+      <p>¡Felicess 20, Marce! Sobrevive a la crisis de los 20, que todos tus sueños se cumplann, y buenoo, no te vas a deshacer de mí tan fácil: voy a joderte la vida cada que pueda. Y el sábado nos ponemos modo Halloweenn. Tqmm Marcee.</p>
+
+      <p>Te quiero muchísimo. 🤍</p>
+
+      <p class="sign">Con amor 💗<strong>Teffi</strong></p>
+      <img class="mascot-sm" src="cinnamoroll.png" alt="" onerror="this.remove()">
+    </article>
+    <button class="again" id="again" type="button">Más confeti</button>
+  </section>
+</main>
+
+<script>
+(function () {
+  var envelope = document.getElementById('envelope');
+  var letter = document.getElementById('letter');
+  var again = document.getElementById('again');
+  var canvas = document.getElementById('confetti');
+  var ctx = canvas.getContext('2d');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var colors = ['#f7d84a', '#f4a3b9', '#ffffff', '#8fb4ff', '#d6416f'];
+  var pieces = [];
+  var running = false;
+
+  /* Corazones flotando de fondo */
+  (function () {
+    var box = document.getElementById('hearts');
+    if (!box || reduce) return;
+    var icons = ['💗', '💖', '🤍', '💙', '🩷'];
+    for (var i = 0; i < 14; i++) {
+      var h = document.createElement('span');
+      h.className = 'heart';
+      h.textContent = icons[i % icons.length];
+      h.style.left = (Math.random() * 96) + '%';
+      h.style.fontSize = (14 + Math.random() * 18) + 'px';
+      h.style.animationDuration = (14 + Math.random() * 14) + 's';
+      h.style.animationDelay = (-Math.random() * 20) + 's';
+      box.appendChild(h);
+    }
+  })();
+
+  function resize() {
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function burst() {
+    if (reduce) return;
+    var n = 140;
+    for (var i = 0; i < n; i++) {
+      pieces.push({
+        x: window.innerWidth / 2 + (Math.random() - .5) * 80,
+        y: window.innerHeight * 0.45,
+        vx: (Math.random() - .5) * 14,
+        vy: -Math.random() * 14 - 4,
+        w: 6 + Math.random() * 6,
+        h: 8 + Math.random() * 8,
+        r: Math.random() * Math.PI,
+        vr: (Math.random() - .5) * .3,
+        c: colors[Math.floor(Math.random() * colors.length)],
+        heart: Math.random() < 0.4,
+        life: 0
+      });
+    }
+    if (!running) { running = true; requestAnimationFrame(tick); }
+  }
+
+  function tick() {
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    pieces = pieces.filter(function (p) { return p.y < window.innerHeight + 30 && p.life < 260; });
+    pieces.forEach(function (p) {
+      p.vy += 0.28; p.vx *= 0.99;
+      p.x += p.vx; p.y += p.vy; p.r += p.vr; p.life++;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.r);
+      ctx.fillStyle = p.c;
+      if (p.heart) {
+        ctx.font = (p.h * 1.8) + 'px sans-serif';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText('\u2665', 0, 0);
+      } else {
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      }
+      ctx.restore();
+    });
+    if (pieces.length) { requestAnimationFrame(tick); }
+    else { running = false; ctx.clearRect(0, 0, window.innerWidth, window.innerHeight); }
+  }
+
+  /* Música: melodía de cumpleaños sintetizada (estilo caja de música) */
+  var musicBtn = document.getElementById('music');
+  var audio = null, master = null, muted = false, loopTimer = null, playing = false;
+  var N = { C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, G4: 392.00, A4: 440.00, B4: 493.88,
+            C5: 523.25, D5: 587.33, E5: 659.25, F5: 698.46, G5: 783.99 };
+  var song = [
+    ['G4', .75], ['G4', .25], ['A4', 1], ['G4', 1], ['C5', 1], ['B4', 2],
+    ['G4', .75], ['G4', .25], ['A4', 1], ['G4', 1], ['D5', 1], ['C5', 2],
+    ['G4', .75], ['G4', .25], ['G5', 1], ['E5', 1], ['C5', 1], ['B4', 1], ['A4', 1],
+    ['F5', .75], ['F5', .25], ['E5', 1], ['C5', 1], ['D5', 1], ['C5', 3]
+  ];
+  var beat = 0.48;
+
+  function note(freq, t, dur) {
+    var o1 = audio.createOscillator(), o2 = audio.createOscillator(), g = audio.createGain();
+    o1.type = 'sine'; o2.type = 'triangle';
+    o1.frequency.value = freq; o2.frequency.value = freq * 2;
+    var g2 = audio.createGain(); g2.gain.value = 0.25;
+    o1.connect(g); o2.connect(g2); g2.connect(g); g.connect(master);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.5, t + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + Math.max(dur, 0.5) + 0.5);
+    o1.start(t); o2.start(t);
+    o1.stop(t + dur + 1.1); o2.stop(t + dur + 1.1);
+  }
+
+  function playSong() {
+    if (!playing) return;
+    var t = audio.currentTime + 0.1;
+    song.forEach(function (n) {
+      note(N[n[0]], t, n[1] * beat);
+      t += n[1] * beat;
+    });
+    loopTimer = setTimeout(playSong, (t - audio.currentTime + 1.5) * 1000);
+  }
+
+  function startSynth() {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC || audio) return;
+    try {
+      audio = new AC();
+      master = audio.createGain();
+      master.gain.value = muted ? 0 : 0.35;
+      master.connect(audio.destination);
+      playing = true;
+      playSong();
+    } catch (e) { /* sin audio disponible */ }
+  }
+
+  /* Canción principal: el archivo eres.mp3 en la misma carpeta que index.html.
+     Si no existe o no carga, suena la melodía sintetizada de respaldo. */
+  var track = null;
+  function startMusic() {
+    musicBtn.classList.add('visible');
+    track = new Audio('eres.mp3');
+    track.loop = true;
+    track.volume = 0.7;
+    track.addEventListener('error', startSynth);
+    var p = track.play();
+    if (p && p.catch) { p.catch(startSynth); }
+  }
+
+  musicBtn.addEventListener('click', function () {
+    muted = !muted;
+    if (track) track.muted = muted;
+    if (master) master.gain.value = muted ? 0 : 0.35;
+    musicBtn.textContent = muted ? '🔇' : '🔊';
+    musicBtn.setAttribute('aria-pressed', String(muted));
+    musicBtn.setAttribute('aria-label', muted ? 'Activar música' : 'Silenciar música');
+  });
+
+  function open() {
+    if (envelope.classList.contains('opened')) return;
+    startMusic();
+    envelope.classList.add('opened');
+    envelope.setAttribute('aria-expanded', 'true');
+    letter.classList.add('show');
+    burst();
+    setTimeout(function () {
+      letter.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    }, 700);
+  }
+
+  envelope.addEventListener('click', open);
+  again.addEventListener('click', burst);
+})();
+</script>
+</body>
+</html>
